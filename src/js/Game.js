@@ -74,7 +74,7 @@ export default class Game {
     draw() {
         requestAnimationFrame(() => this.draw());
 
-        if (Util.rand(1, 100) > 70) {
+        if (Util.rand(1, 100) > 90) {
             this.add(Enemy, {
                 x: Util.rand(0, this.width - 50),
                 y: -50
@@ -84,7 +84,10 @@ export default class Game {
         const objects = this.getOrderedObjects();
 
         this.ctx.clearRect(0, 0, this.width, this.height);
-        objects.map(object => object.update());
-        objects.map(object => object.draw());
+
+        for (let i = 0; i < objects.length; i++) {
+            objects[i].update();
+            objects[i].draw();
+        }
     }
 }

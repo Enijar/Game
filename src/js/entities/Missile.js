@@ -1,9 +1,5 @@
 import Entity from "./Entity";
 
-function log() {
-    console.log('log');
-}
-
 export default class Missile extends Entity {
     constructor(props) {
         super(props);

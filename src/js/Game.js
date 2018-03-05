@@ -1,4 +1,6 @@
 import Control from "./classes/Control";
+import Enemy from "./entities/Enemy";
+import Util from "./classes/Util";
 
 export default class Game {
     constructor(props) {
@@ -65,11 +67,24 @@ export default class Game {
         }
     }
 
+    getOrderedObjects() {
+        return this.objects.sort((a, b) => a.zIndex - b.zIndex);
+    }
+
     draw() {
         requestAnimationFrame(() => this.draw());
 
+        if (Util.rand(1, 100) > 70) {
+            this.add(Enemy, {
+                x: Util.rand(0, this.width - 50),
+                y: -50
+            });
+        }
+
+        const objects = this.getOrderedObjects();
+
         this.ctx.clearRect(0, 0, this.width, this.height);
-        this.objects.map(object => object.update());
-        this.objects.map(object => object.draw());
+        objects.map(object => object.update());
+        objects.map(object => object.draw());
     }
 }

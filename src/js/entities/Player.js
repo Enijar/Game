@@ -1,10 +1,6 @@
 import Entity from "./Entity";
 import Missile from "./Missile";
 
-function log() {
-    console.log('log');
-}
-
 export default class Player extends Entity {
     constructor(props) {
         super(props);
@@ -15,6 +11,7 @@ export default class Player extends Entity {
         this.height = 50;
         this.fireInterval = 150;
         this.lastFireTime = 0;
+        this.zIndex = 1;
     }
 
     update() {
@@ -41,6 +38,7 @@ export default class Player extends Entity {
     }
 
     draw() {
+        this.game.ctx.fillStyle = 'rgba(0, 0, 0, 1)';
         this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }

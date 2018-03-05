@@ -1,0 +1,6 @@
+/node_modules/
+/.idea/
+/public/css/app.css
+/public/js/app.js
+mix-manifest.json
+.DS_Store

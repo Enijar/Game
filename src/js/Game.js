@@ -10,9 +10,14 @@ export default class Game {
         this.canvas.height = this.height;
         this.objects = [];
         this.keyCodes = [];
+        this.mouse = {
+            x: 0,
+            y: 0
+        };
 
         document.addEventListener('keydown', event => this.addKey(event));
         document.addEventListener('keyup', event => this.removeKey(event));
+        document.addEventListener('mousemove', event => this.updateMouse(event));
 
         this.draw();
     }
@@ -31,6 +36,11 @@ export default class Game {
                 this.keyCodes.splice(i, 1);
             }
         }
+    }
+
+    updateMouse(event) {
+        this.mouse.x = event.pageX;
+        this.mouse.y = event.pageY;
     }
 
     keyPressed(key) {

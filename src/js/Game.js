@@ -47,10 +47,11 @@ export default class Game {
         return Control.pressed(key, this.keyCodes);
     }
 
-    add(object) {
-        this.objects.push(new object({
+    add(object, props = {}) {
+        props = Object.assign(props, {
             game: this
-        }));
+        });
+        this.objects.push(new object(props));
     }
 
     remove(object) {

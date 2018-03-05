@@ -1,4 +1,5 @@
 import Entity from "./Entity";
+import Missile from "./Missile";
 
 function log() {
     console.log('log');
@@ -31,10 +32,14 @@ export default class Player extends Entity {
         if (this.lastFireTime + this.fireInterval > Date.now()) {
             return;
         }
-
         this.lastFireTime = Date.now();
 
         console.log('FIRE');
+
+        this.game.add(Missile, {
+            x: this.x + (this.width / 2),
+            y: this.y
+        });
     }
 
     draw() {

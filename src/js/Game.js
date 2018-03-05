@@ -54,9 +54,9 @@ export default class Game {
         this.objects.push(new object(props));
     }
 
-    remove(object) {
+    remove(objectId) {
         for (let i = this.objects.length - 1; i >= 0; i--) {
-            if (object.id === this.objects[i].id) {
+            if (this.objects[i].id === objectId) {
                 this.objects.splice(i, 1);
             }
         }

@@ -16,6 +16,10 @@ export default class Missile extends Entity {
 
     update() {
         this.y -= this.velocity;
+
+        if (this.y < 0) {
+            this.game.remove(this.id);
+        }
     }
 
     draw() {

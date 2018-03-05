@@ -13,7 +13,7 @@ export default class Player extends Entity {
         this.y = 0;
         this.width = 100;
         this.height = 250;
-        this.fireInterval = 100;
+        this.fireInterval = 150;
         this.lastFireTime = 0;
     }
 
@@ -33,8 +33,6 @@ export default class Player extends Entity {
             return;
         }
         this.lastFireTime = Date.now();
-
-        console.log('FIRE');
 
         this.game.add(Missile, {
             x: this.x + (this.width / 2),

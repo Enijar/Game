@@ -41,12 +41,6 @@ export default class Player extends Entity {
     }
 
     draw() {
-        // Body
         this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
-
-        // Cannon
-        const cannonW = this.width / 2;
-        const cannonH = this.height / 4;
-        this.game.ctx.fillRect(this.x + ((this.width - cannonW) / 2), this.y - cannonH, cannonW, this.height);
     }
 }

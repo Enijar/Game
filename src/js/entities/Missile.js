@@ -10,8 +10,8 @@ export default class Missile extends Entity {
 
         this.x = props.x || 0;
         this.y = props.y || 0;
-        this.radius = 10;
-        this.velocity = 25;
+        this.radius = 6;
+        this.velocity = 15;
     }
 
     update() {

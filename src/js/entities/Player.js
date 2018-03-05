@@ -12,7 +12,7 @@ export default class Player extends Entity {
         this.x = 0;
         this.y = 0;
         this.width = 100;
-        this.height = 250;
+        this.height = 50;
         this.fireInterval = 150;
         this.lastFireTime = 0;
     }
@@ -23,7 +23,7 @@ export default class Player extends Entity {
         this.y = Math.max(0, this.game.mouse.y - (this.height / 2));
         this.y = Math.min(this.game.height - this.height, this.y);
 
-        if (this.game.keyPressed('SPACE')) {
+        if (this.game.mouse.pressed) {
             this.fire();
         }
     }
@@ -41,6 +41,12 @@ export default class Player extends Entity {
     }
 
     draw() {
+        // Body
         this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        // Cannon
+        const cannonW = this.width / 2;
+        const cannonH = this.height / 4;
+        this.game.ctx.fillRect(this.x + ((this.width - cannonW) / 2), this.y - cannonH, cannonW, this.height);
     }
 }

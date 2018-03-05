@@ -12,12 +12,15 @@ export default class Game {
         this.keyCodes = [];
         this.mouse = {
             x: 0,
-            y: 0
+            y: 0,
+            pressed: false
         };
 
         document.addEventListener('keydown', event => this.addKey(event));
         document.addEventListener('keyup', event => this.removeKey(event));
         document.addEventListener('mousemove', event => this.updateMouse(event));
+        document.addEventListener('mousedown', () => this.mouse.pressed = true);
+        document.addEventListener('mouseup', () => this.mouse.pressed = false);
 
         this.draw();
     }

@@ -2,12 +2,11 @@ import Control from "./classes/Control";
 import Enemy from "./entities/Enemy";
 import Util from "./classes/Util";
 import config from "./config";
-import Queue from "./classes/Queue";
 
 export default class Game {
     constructor(props) {
         this.lastEnemyTime = 0;
-        this.lastEnemyInterval = 500;
+        this.lastEnemyInterval = 2000;
         this.debug = true;
         this.canvas = document.querySelector('#canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -62,7 +61,6 @@ export default class Game {
     add(object, props = {}) {
         const entity = new object({game: this, ...props});
         this.entities.push(entity);
-
         // this.entities.sort((a, b) => a.zIndex - b.zIndex);
         // console.log(this.entities);
     }
@@ -82,34 +80,24 @@ export default class Game {
 
         this.lastEnemyTime = Date.now();
 
-        Queue.add(() => {
-            this.add(Enemy, {
-                x: Util.rand(0, this.width - config.enemy.width),
-                y: -config.enemy.height
-            });
+        this.add(Enemy, {
+            x: Util.rand(0, this.width - config.enemy.width),
+            y: -config.enemy.height
         });
     }
 
     drawAndUpdateEntities() {
-        Queue.add(() => {
-            const entities = this.entities;
-            for (let i = 0; i < entities.length; i++) {
-                const entity = entities[i];
-
-                if (!entity) {
-                    continue;
-                }
-
-                entity.draw();
-                entity.update();
-            }
-        });
+        const entities = this.entities;
+        for (let i = 0; i < entities.length; i++) {
+            const entity = entities[i];
+            entity.draw();
+            entity.update();
+        }
     }
 
     tick() {
         this.addEnemy();
         this.drawAndUpdateEntities();
-        Queue.process();
     }
 
     draw() {

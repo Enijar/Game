@@ -44,17 +44,21 @@ export default class Game {
         }
     }
 
+    keyPressed(key) {
+        return Control.pressed(key, this.keyCodes);
+    }
+
     updateMouse(event) {
         this.mouse.x = event.pageX;
         this.mouse.y = event.pageY;
     }
 
-    keyPressed(key) {
-        return Control.pressed(key, this.keyCodes);
-    }
-
     add(object, props = {}) {
-        this.entities.push(new object({game: this, ...props}));
+        const entity = new object({game: this, ...props});
+        this.entities.push(entity);
+
+        // this.entities.sort((a, b) => a.zIndex - b.zIndex);
+        // console.log(this.entities);
     }
 
     remove(objectId) {
@@ -65,16 +69,12 @@ export default class Game {
         }
     }
 
-    getEntities() {
-        return this.entities.sort((a, b) => a.zIndex - b.zIndex);
-    }
-
     draw() {
         requestAnimationFrame(() => this.draw());
 
         this.ctx.clearRect(0, 0, this.width, this.height);
 
-        // 90% chance of adding a new enemy.
+        // 10% chance of adding a new enemy.
         if (Util.rand(1, 100) > 90) {
             this.add(Enemy, {
                 x: Util.rand(0, this.width - 50),
@@ -83,10 +83,16 @@ export default class Game {
         }
 
         // Update and draw all entities.
-        const entities = this.getEntities();
+        const entities = this.entities;
         for (let i = 0; i < entities.length; i++) {
-            entities[i].update();
-            entities[i].draw();
+            const entity = entities[i];
+
+            if (!entity) {
+                continue;
+            }
+
+            entity.draw();
+            entity.update();
         }
 
         // Show debug-specific info.

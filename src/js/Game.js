@@ -88,10 +88,6 @@ export default class Game {
         });
     }
 
-    getEntities() {
-        return this.entities;
-    }
-
     draw() {
         requestAnimationFrame(this.draw);
 
@@ -99,10 +95,9 @@ export default class Game {
 
         this.addEnemy();
 
-        const entities = this.getEntities();
-        for (let entityId in entities) {
-            if (entities.hasOwnProperty(entityId)) {
-                const entity = entities[entityId];
+        for (let entityId in this.entities) {
+            if (this.entities.hasOwnProperty(entityId)) {
+                const entity = this.entities[entityId];
                 entity.update();
                 entity.draw();
             }

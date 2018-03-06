@@ -1,3 +1,4 @@
+import _ from "lodash";
 import Control from "./classes/Control";
 import Enemy from "./entities/Enemy";
 import Util from "./classes/Util";
@@ -61,6 +62,11 @@ export default class Game {
     add(object, props = {}) {
         const entity = new object({game: this, ...props});
         this.entities[entity.id] = entity;
+
+        // Sort entities by zIndex.
+        // Convert object to array, then sort, then convert back to object.
+        const sortedEntities = _.sortBy(_.toArray(this.entities), ['zIndex']);
+        this.entities = _.chain(sortedEntities).keyBy('id').value();
     }
 
     remove(objectId) {
@@ -82,6 +88,9 @@ export default class Game {
         });
     }
 
+    getEntities() {
+        return this.entities;
+    }
 
     draw() {
         requestAnimationFrame(this.draw);
@@ -90,9 +99,10 @@ export default class Game {
 
         this.addEnemy();
 
-        for (let entityId in this.entities) {
-            if (this.entities.hasOwnProperty(entityId)) {
-                const entity = this.entities[entityId];
+        const entities = this.getEntities();
+        for (let entityId in entities) {
+            if (entities.hasOwnProperty(entityId)) {
+                const entity = entities[entityId];
                 entity.update();
                 entity.draw();
             }

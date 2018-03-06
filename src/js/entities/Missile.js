@@ -20,6 +20,7 @@ export default class Missile extends Entity {
 
     draw() {
         this.game.ctx.beginPath();
+        this.game.ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
         this.game.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         this.game.ctx.stroke();
     }

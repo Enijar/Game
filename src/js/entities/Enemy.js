@@ -1,4 +1,5 @@
 import Entity from "./Entity";
+import Asset from "../classes/Asset";
 
 export default class Enemy extends Entity {
     constructor(props) {
@@ -6,8 +7,8 @@ export default class Enemy extends Entity {
 
         this.x = props.x || 0;
         this.y = props.y || 0;
-        this.width = 50;
-        this.height = 50;
+        this.width = 0;
+        this.height = 0;
         this.velocity = 5;
     }
 
@@ -25,7 +26,15 @@ export default class Enemy extends Entity {
     }
 
     draw() {
-        this.game.ctx.fillStyle = 'rgba(200, 0, 0, 1)';
-        this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
+        const asset = Asset.get('enemy');
+
+        if (asset === null) {
+            return;
+        }
+
+        this.width = asset.width;
+        this.height = asset.height;
+
+        this.game.ctx.drawImage(asset, this.x, this.y, this.width, this.height);
     }
 }

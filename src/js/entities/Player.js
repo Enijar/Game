@@ -9,9 +9,16 @@ export default class Player extends Entity {
         this.y = 0;
         this.width = 100;
         this.height = 50;
-        this.fireInterval = 150;
+        this.fireInterval = 0;
         this.lastFireTime = 0;
         this.zIndex = 1;
+        this.autoFire = false;
+
+        document.addEventListener('keydown', () => {
+            if (this.game.keyPressed('F')) {
+                this.autoFire = !this.autoFire;
+            }
+        });
     }
 
     update() {
@@ -20,7 +27,7 @@ export default class Player extends Entity {
         this.y = Math.max(0, this.game.mouse.y - (this.height / 2));
         this.y = Math.min(this.game.height - this.height, this.y);
 
-        if (this.game.mouse.pressed) {
+        if (this.game.mouse.pressed || this.autoFire) {
             this.fire();
         }
     }
@@ -38,7 +45,7 @@ export default class Player extends Entity {
     }
 
     draw() {
-        this.game.ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+        this.game.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
         this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }

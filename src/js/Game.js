@@ -14,7 +14,7 @@ export default class Game {
         this.height = window.innerHeight;
         this.canvas.width = this.width;
         this.canvas.height = this.height;
-        this.entities = [];
+        this.entities = {};
         this.keyCodes = [];
         this.mouse = {
             x: 0,
@@ -60,16 +60,12 @@ export default class Game {
 
     add(object, props = {}) {
         const entity = new object({game: this, ...props});
-        this.entities.push(entity);
-        // this.entities.sort((a, b) => a.zIndex - b.zIndex);
-        // console.log(this.entities);
+        this.entities[entity.id] = entity;
     }
 
     remove(objectId) {
-        for (let i = this.entities.length - 1; i >= 0; i--) {
-            if (this.entities[i].id === objectId) {
-                this.entities.splice(i, 1);
-            }
+        if (this.entities.hasOwnProperty(objectId)) {
+            delete this.entities[objectId];
         }
     }
 
@@ -86,31 +82,26 @@ export default class Game {
         });
     }
 
-    drawAndUpdateEntities() {
-        const entities = this.entities;
-        for (let i = 0; i < entities.length; i++) {
-            const entity = entities[i];
-            entity.draw();
-            entity.update();
-        }
-    }
-
-    tick() {
-        this.addEnemy();
-        this.drawAndUpdateEntities();
-    }
 
     draw() {
         requestAnimationFrame(this.draw);
 
         this.ctx.clearRect(0, 0, this.width, this.height);
 
-        this.tick();
+        this.addEnemy();
+
+        for (let entityId in this.entities) {
+            if (this.entities.hasOwnProperty(entityId)) {
+                const entity = this.entities[entityId];
+                entity.update();
+                entity.draw();
+            }
+        }
 
         // Show debug-specific info.
         if (this.debug) {
             this.ctx.font = '30px Arial';
-            this.ctx.fillText(`Total entities: ${this.entities.length}`, 0, 30);
+            this.ctx.fillText(`Total entities: ${Object.keys(this.entities).length}`, 0, 30);
         }
     }
 }

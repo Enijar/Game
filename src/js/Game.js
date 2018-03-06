@@ -8,6 +8,7 @@ export default class Game {
     constructor(props) {
         this.lastEnemyTime = 0;
         this.lastEnemyInterval = 2000;
+        this.lastDrawTime = 0;
         this.debug = true;
         this.canvas = document.querySelector('#canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -90,6 +91,15 @@ export default class Game {
 
     draw() {
         requestAnimationFrame(this.draw);
+
+        const now = Date.now();
+        const delta = now - this.lastDrawTime;
+
+        if (delta <= 1000 / config.fps) {
+            return;
+        }
+
+        this.lastDrawTime = now - (delta % (1000 / config.fps));
 
         this.ctx.clearRect(0, 0, this.width, this.height);
 

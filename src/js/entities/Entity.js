@@ -1,6 +1,8 @@
+import Util from "../classes/Util";
+
 export default class Entity {
     constructor(props) {
-        this.id = Date.now() + Math.round(Math.random() * 1000);
+        this.id = Util.guid();
         this.zIndex = 0;
         this.game = props.game;
     }

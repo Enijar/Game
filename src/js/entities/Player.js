@@ -1,5 +1,6 @@
 import Entity from "./Entity";
 import Missile from "./Missile";
+import config from "../config";
 
 export default class Player extends Entity {
     constructor(props) {
@@ -7,8 +8,8 @@ export default class Player extends Entity {
 
         this.x = 0;
         this.y = 0;
-        this.width = 100;
-        this.height = 50;
+        this.width = config.player.width;
+        this.height = config.player.height;
         this.fireInterval = 0;
         this.lastFireTime = 0;
         this.zIndex = 1;

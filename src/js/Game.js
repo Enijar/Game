@@ -1,9 +1,13 @@
 import Control from "./classes/Control";
 import Enemy from "./entities/Enemy";
 import Util from "./classes/Util";
+import config from "./config";
+import Queue from "./classes/Queue";
 
 export default class Game {
     constructor(props) {
+        this.lastEnemyTime = 0;
+        this.lastEnemyInterval = 500;
         this.debug = true;
         this.canvas = document.querySelector('#canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -18,6 +22,8 @@ export default class Game {
             y: 0,
             pressed: false
         };
+
+        this.draw = this.draw.bind(this);
 
         document.addEventListener('keydown', event => this.addKey(event));
         document.addEventListener('keyup', event => this.removeKey(event));
@@ -69,31 +75,49 @@ export default class Game {
         }
     }
 
+    addEnemy() {
+        if (this.lastEnemyTime + this.lastEnemyInterval > Date.now()) {
+            return;
+        }
+
+        this.lastEnemyTime = Date.now();
+
+        Queue.add(() => {
+            this.add(Enemy, {
+                x: Util.rand(0, this.width - config.enemy.width),
+                y: -config.enemy.height
+            });
+        });
+    }
+
+    drawAndUpdateEntities() {
+        Queue.add(() => {
+            const entities = this.entities;
+            for (let i = 0; i < entities.length; i++) {
+                const entity = entities[i];
+
+                if (!entity) {
+                    continue;
+                }
+
+                entity.draw();
+                entity.update();
+            }
+        });
+    }
+
+    tick() {
+        this.addEnemy();
+        this.drawAndUpdateEntities();
+        Queue.process();
+    }
+
     draw() {
-        requestAnimationFrame(() => this.draw());
+        requestAnimationFrame(this.draw);
 
         this.ctx.clearRect(0, 0, this.width, this.height);
 
-        // 10% chance of adding a new enemy.
-        if (Util.rand(1, 100) > 90) {
-            this.add(Enemy, {
-                x: Util.rand(0, this.width - 50),
-                y: -50
-            });
-        }
-
-        // Update and draw all entities.
-        const entities = this.entities;
-        for (let i = 0; i < entities.length; i++) {
-            const entity = entities[i];
-
-            if (!entity) {
-                continue;
-            }
-
-            entity.draw();
-            entity.update();
-        }
+        this.tick();
 
         // Show debug-specific info.
         if (this.debug) {

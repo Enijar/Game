@@ -1,5 +1,6 @@
 import Entity from "./Entity";
 import Asset from "../classes/Asset";
+import config from "../config";
 
 export default class Enemy extends Entity {
     constructor(props) {
@@ -18,7 +19,7 @@ export default class Enemy extends Entity {
         if (
             this.x < 0 ||
             this.x > this.game.height + this.height ||
-            this.y < -50 ||
+            this.y < -config.enemy.height ||
             this.y > this.game.width + this.width
         ) {
             this.game.remove(this.id);

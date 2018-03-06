@@ -1,4 +1,6 @@
 import Entity from "./Entity";
+import Asset from "../classes/Asset";
+import config from "../config";
 
 export default class Missile extends Entity {
     constructor(props) {
@@ -6,7 +8,8 @@ export default class Missile extends Entity {
 
         this.x = props.x || 0;
         this.y = props.y || 0;
-        this.radius = 6;
+        this.width = config.missile.width;
+        this.height = config.missile.height;
         this.velocity = 15;
     }
 
@@ -19,9 +22,12 @@ export default class Missile extends Entity {
     }
 
     draw() {
-        this.game.ctx.beginPath();
-        this.game.ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
-        this.game.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        this.game.ctx.stroke();
+        const asset = Asset.get('missile');
+
+        if (asset === null) {
+            return;
+        }
+
+        this.game.ctx.drawImage(asset, this.x, this.y, this.width, this.height);
     }
 }

@@ -3,12 +3,14 @@ import Control from "./classes/Control";
 import Enemy from "./entities/Enemy";
 import Util from "./classes/Util";
 import config from "./config";
+import Asset from "./classes/Asset";
 
 export default class Game {
     constructor(props) {
         this.lastEnemyTime = 0;
         this.lastEnemyInterval = 2000;
         this.lastDrawTime = 0;
+        this.loading = true;
         this.debug = true;
         this.canvas = document.querySelector('#canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -33,6 +35,8 @@ export default class Game {
         document.addEventListener('mouseup', () => this.mouse.pressed = false);
 
         this.draw();
+
+        setTimeout(() => this.loading = false, 3000);
     }
 
     addKey(event) {
@@ -100,8 +104,17 @@ export default class Game {
         }
 
         this.lastDrawTime = now - (delta % (1000 / config.fps));
-
         this.ctx.clearRect(0, 0, this.width, this.height);
+
+        if (this.loading) {
+            const splash = Asset.get('splash');
+
+            if (splash !== null) {
+                this.ctx.drawImage(splash, 0, 0, splash.width, splash.height);
+            }
+            
+            return;
+        }
 
         this.addEnemy();
 

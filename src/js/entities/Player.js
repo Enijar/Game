@@ -10,7 +10,7 @@ export default class Player extends Entity {
         this.y = 0;
         this.width = config.player.width;
         this.height = config.player.height;
-        this.fireInterval = 0;
+        this.fireInterval = 1000 / config.missile.fireRate;
         this.lastFireTime = 0;
         this.zIndex = 1;
         this.autoFire = false;

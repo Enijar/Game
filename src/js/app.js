@@ -6,6 +6,14 @@ Asset.loadAll([
     {
         id: 'enemy',
         src: 'img/enemy.png'
+    },
+    {
+        id: 'missile',
+        src: 'img/missile.png'
+    },
+    {
+        id: 'splash',
+        src: 'img/splash.png'
     }
 ]);
 

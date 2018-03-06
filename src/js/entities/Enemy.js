@@ -8,8 +8,8 @@ export default class Enemy extends Entity {
 
         this.x = props.x || 0;
         this.y = props.y || 0;
-        this.width = 0;
-        this.height = 0;
+        this.width = config.enemy.width;
+        this.height = config.enemy.height;
         this.velocity = 5;
     }
 
@@ -32,9 +32,6 @@ export default class Enemy extends Entity {
         if (asset === null) {
             return;
         }
-
-        this.width = asset.width;
-        this.height = asset.height;
 
         this.game.ctx.drawImage(asset, this.x, this.y, this.width, this.height);
     }

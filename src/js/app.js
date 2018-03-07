@@ -12,10 +12,6 @@ Asset.loadAll([
         src: 'img/missile.png'
     },
     {
-        id: 'splash',
-        src: 'img/splash.png'
-    },
-    {
         id: 'player',
         src: 'img/player.png'
     }

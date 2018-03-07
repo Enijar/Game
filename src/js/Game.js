@@ -10,8 +10,8 @@ export default class Game {
         this.lastEnemyTime = 0;
         this.lastEnemyInterval = 2000;
         this.lastDrawTime = 0;
-        this.loading = false;
         this.debug = true;
+        this.gameOver = false;
         this.canvas = document.querySelector('#canvas');
         this.ctx = this.canvas.getContext('2d');
         this.width = window.innerWidth;
@@ -20,6 +20,7 @@ export default class Game {
         this.canvas.height = this.height;
         this.entities = {};
         this.keyCodes = [];
+        this.score = 0;
         this.mouse = {
             x: 0,
             y: 0,
@@ -106,6 +107,14 @@ export default class Game {
         this.lastDrawTime = now - (delta % (1000 / config.fps));
         this.ctx.clearRect(0, 0, this.width, this.height);
 
+        if (this.gameOver) {
+            const text = `Game Over`;
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            this.ctx.font = '30px Arial';
+            this.ctx.fillText(text, (this.width - this.ctx.measureText(text).width) / 2, (this.height - 30) / 2);
+            return;
+        }
+
         if (this.loading) {
             const splash = Asset.get('splash');
 
@@ -128,7 +137,15 @@ export default class Game {
                     for (let i = 0; i < collisions.length; i++) {
                         const collision = collisions[i];
 
+                        // Enemy vs. Player check
+                        if (entity.name === 'Enemy' && collision.name === 'Player') {
+                            this.gameOver = true;
+                            break;
+                        }
+
+                        // Missile vs. Enemy check
                         if (entity.name === 'Missile' && collision.name === 'Enemy') {
+                            this.score++;
                             this.remove(collision.id);
                         }
                     }
@@ -139,11 +156,17 @@ export default class Game {
             }
         }
 
+        // Show score
+        const score = `Score: ${this.score}`;
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+        this.ctx.font = '30px Arial';
+        this.ctx.fillText(score, this.width - this.ctx.measureText(score).width - 20, 40);
+
         // Show debug-specific info.
         if (config.debug) {
             this.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
             this.ctx.font = '30px Arial';
-            this.ctx.fillText(`Total entities: ${Object.keys(this.entities).length}`, 0, 30);
+            this.ctx.fillText(`Total entities: ${Object.keys(this.entities).length}`, 20, 40);
         }
     }
 }

@@ -137,6 +137,11 @@ export default class Game {
             if (this.entities.hasOwnProperty(entityId)) {
                 const entity = this.entities[entityId];
 
+                if (entity.name === 'Enemy' && entity.y + entity.height > this.height) {
+                    this.gameOver = true;
+                    break;
+                }
+
                 const collisions = Util.entityCollisions(entity, this.entities);
 
                 if (collisions.length > 0) {

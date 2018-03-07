@@ -16,6 +16,8 @@ export default class Player extends Entity {
         this.zIndex = 1;
         this.autoFire = false;
 
+        console.log(this.x, this.y);
+
         document.addEventListener('keydown', () => {
             if (this.game.keyPressed('F')) {
                 this.autoFire = !this.autoFire;

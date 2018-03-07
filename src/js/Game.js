@@ -8,7 +8,7 @@ import Asset from "./classes/Asset";
 export default class Game {
     constructor(props) {
         this.lastEnemyTime = 0;
-        this.lastEnemyInterval = 2000;
+        this.lastEnemyInterval = 1000 / config.enemy.spawnRate;
         this.lastDrawTime = 0;
         this.debug = true;
         this.gameOver = false;
@@ -21,9 +21,10 @@ export default class Game {
         this.entities = {};
         this.keyCodes = [];
         this.score = 0;
+
         this.mouse = {
-            x: 0,
-            y: 0,
+            x: (this.width + config.player.width) / 2,
+            y: this.height + config.player.height,
             pressed: false
         };
 

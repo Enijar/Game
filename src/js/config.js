@@ -4,6 +4,7 @@ export default {
     enemy: {
         width: 200,
         height: 240,
+        spawnRate: 3.5
     },
     player: {
         width: 100,
@@ -12,7 +13,7 @@ export default {
     missile: {
         width: 50,
         height: 50,
-        fireRate: 10,
+        fireRate: 2,
     },
     splash: {
         width: 1000,

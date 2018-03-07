@@ -12,7 +12,7 @@ export default {
     missile: {
         width: 50,
         height: 50,
-        fireRate: 15,
+        fireRate: 10,
     },
     splash: {
         width: 1000,

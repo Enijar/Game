@@ -121,6 +121,19 @@ export default class Game {
         for (let entityId in this.entities) {
             if (this.entities.hasOwnProperty(entityId)) {
                 const entity = this.entities[entityId];
+
+                const collisions = Util.entityCollisions(entity, this.entities);
+
+                if (collisions.length > 0) {
+                    for (let i = 0; i < collisions.length; i++) {
+                        const collision = collisions[i];
+
+                        if (entity.name === 'Missile' && collision.name === 'Enemy') {
+                            this.remove(collision.id);
+                        }
+                    }
+                }
+
                 entity.update();
                 entity.draw();
             }

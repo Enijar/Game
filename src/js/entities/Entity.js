@@ -5,6 +5,7 @@ export default class Entity {
         this.id = Util.guid();
         this.zIndex = 0;
         this.game = props.game;
+        this.hp = 1;
         this.name = this.constructor.name;
     }
 }

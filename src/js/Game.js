@@ -157,7 +157,12 @@ export default class Game {
                         // Missile vs. Enemy check
                         if (entity.name === 'Missile' && collision.name === 'Enemy') {
                             this.score++;
-                            this.remove(collision.id);
+                            collision.hp--;
+
+                            if (collision.hp <= 0) {
+                                console.log('remove');
+                                this.remove(collision.id);
+                            }
                         }
                     }
                 }

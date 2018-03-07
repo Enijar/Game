@@ -10,7 +10,7 @@ export default class Missile extends Entity {
         this.y = props.y || 0;
         this.width = config.missile.width;
         this.height = config.missile.height;
-        this.velocity = 15;
+        this.velocity = 30;
         this.zIndex = 2;
     }
 

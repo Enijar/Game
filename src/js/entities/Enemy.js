@@ -11,6 +11,7 @@ export default class Enemy extends Entity {
         this.width = config.enemy.width;
         this.height = config.enemy.height;
         this.velocity = 5;
+        this.hp = 5;
     }
 
     update() {

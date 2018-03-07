@@ -109,10 +109,15 @@ export default class Game {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         if (this.gameOver) {
-            const text = `Game Over`;
+            const text = `Game Over! Press R to replay`;
             this.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
             this.ctx.font = '30px Arial';
             this.ctx.fillText(text, (this.width - this.ctx.measureText(text).width) / 2, (this.height - 30) / 2);
+
+            if (this.keyPressed('R')) {
+                location.reload();
+            }
+
             return;
         }
 

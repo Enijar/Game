@@ -1,6 +1,7 @@
 import Entity from "./Entity";
 import Missile from "./Missile";
 import config from "../config";
+import Asset from "../classes/Asset";
 
 export default class Player extends Entity {
     constructor(props) {
@@ -40,13 +41,18 @@ export default class Player extends Entity {
         this.lastFireTime = Date.now();
 
         this.game.add(Missile, {
-            x: this.x + (this.width / 2),
+            x: (this.x + (this.width / 2)) - (config.missile.width / 2),
             y: this.y
         });
     }
 
     draw() {
-        this.game.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        this.game.ctx.fillRect(this.x, this.y, this.width, this.height);
+        const asset = Asset.get('player');
+
+        if (asset === null) {
+            return;
+        }
+
+        this.game.ctx.drawImage(asset, this.x, this.y, this.width, this.height);
     }
 }

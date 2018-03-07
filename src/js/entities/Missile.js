@@ -11,6 +11,7 @@ export default class Missile extends Entity {
         this.width = config.missile.width;
         this.height = config.missile.height;
         this.velocity = 15;
+        this.zIndex = 2;
     }
 
     update() {

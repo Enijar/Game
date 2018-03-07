@@ -10,7 +10,7 @@ export default class Game {
         this.lastEnemyTime = 0;
         this.lastEnemyInterval = 2000;
         this.lastDrawTime = 0;
-        this.loading = true;
+        this.loading = false;
         this.debug = true;
         this.canvas = document.querySelector('#canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -127,7 +127,8 @@ export default class Game {
         }
 
         // Show debug-specific info.
-        if (this.debug) {
+        if (config.debug) {
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
             this.ctx.font = '30px Arial';
             this.ctx.fillText(`Total entities: ${Object.keys(this.entities).length}`, 0, 30);
         }
